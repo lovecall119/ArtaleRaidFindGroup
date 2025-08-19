@@ -405,8 +405,8 @@
     });
 
     function mockMatch(players){
-      if(players.length<4){
-        return { html: '<div class="empty">玩家不足，至少需要 4 人以上</div>' };
+      if(players.length<6){
+        return { html: '<div class="empty">玩家不足，至少需要 6 人以上</div>' };
       }
       // 按可出席日分組
       const byDay = new Map();
