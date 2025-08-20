@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Artale 每周 BOSS 配對 | UI 原型</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">A</div>
+            <div>
+                <h1>Artale 每周 BOSS 配對</h1>
+                <div class="muted">輸入玩家資訊 ➜ 建立名單 ➜ 自動配對 7/14 場</div>
+            </div>
+        </header>
+
+        <div class="layout">
+            <!-- Left Column: Player form -->
+            <aside class="card" aria-label="玩家設定">
+                <div class="body">
+                    <div class="section">
+                        <h2>玩家資訊</h2>
+                        <label for="playerName">玩家名稱</label>
+                        <input id="playerName" type="text" placeholder="ex: 阿湯" />
+
+                        <div class="row" style="margin-top:8px">
+                            <div>
+                                <label for="job">職業</label>
+                                <select id="job">
+                                    <option value="">選擇職業…</option>
+                                    <option>劍士</option>
+                                    <option>槍手</option>
+                                    <option>法師</option>
+                                    <option>弓手</option>
+                                    <option>盜賊</option>
+                                    <option>補師</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="rounds">本週場次</label>
+                                <select id="rounds">
+                                    <option value="7">7 場</option>
+                                    <option value="14" selected>14 場</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>可出席日 <button id="allDay" type="button"
+                                class="day"><strong>全選</strong><small>Shampoo</small></button></h2>
+
+
+                        <div class="week" id="week">
+                            <button type="button" class="day" data-day="1"><strong>一</strong><small>Mon</small></button>
+                            <button type="button" class="day" data-day="2"><strong>二</strong><small>Tue</small></button>
+                            <button type="button" class="day" data-day="3"><strong>三</strong><small>Wed</small></button>
+                            <button type="button" class="day" data-day="4"><strong>四</strong><small>Thu</small></button>
+                            <button type="button" class="day" data-day="5"><strong>五</strong><small>Fri</small></button>
+                            <button type="button" class="day" data-day="6"><strong>六</strong><small>Sat</small></button>
+                            <button type="button" class="day" data-day="0"><strong>日</strong><small>Sun</small></button>
+                        </div>
+                        <div class="chips" style="margin-top:10px">
+                            <span class="muted" style="font-size:12px">時段偏好：</span>
+                            <div class="chip" data-chip="am">上午</div>
+                            <div class="chip" data-chip="pm">下午</div>
+                            <div class="chip" data-chip="eve">晚上</div>
+                            <div class="chip" data-chip="late">深夜</div>
+                        </div>
+                    </div>
+
+                    <div class="section" style="display: none;">
+                        <h2>隊伍偏好</h2>
+                        <div class="chips">
+                            <div class="chip" data-chip="role-dps">DPS</div>
+                            <div class="chip" data-chip="role-tank">坦克</div>
+                            <div class="chip" data-chip="role-heal">補師</div>
+                            <div class="chip" data-chip="same-class">同職業加成</div>
+                            <div class="chip" data-chip="newbie-ok">可帶新手</div>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn-primary" id="btnAdd">加入名單</button>
+                        <button class="btn-ghost" id="btnReset" title="清除表單">重填</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Column: Data / Results -->
+            <main class="panel" aria-label="資料與結果">
+                <nav class="tabs" role="tablist">
+                    <button class="tab" role="tab" aria-selected="true" data-tab="players">玩家名單</button>
+                    <button class="tab" role="tab" aria-selected="false" data-tab="matches">配對建議</button>
+                    <button class="tab" role="tab" aria-selected="false" data-tab="schedule">本週排程</button>
+                </nav>
+                <section class="body">
+                    <!-- Toolbar -->
+                    <div class="toolbar">
+                        <div class="search">
+                            <input id="search" type="text" placeholder="搜尋玩家/職業…" />
+                            <button id="btnExport">匯出 JSON</button>
+                            <input id="importFile" type="file" accept="application/json" hidden />
+                            <button id="btnImport">匯入 JSON</button>
+                        </div>
+                        <div>
+                            <button class="btn-primary" id="btnAuto">自動配對</button>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Players -->
+                    <div id="pane-players">
+                        <table aria-label="玩家名單">
+                            <thead>
+                                <tr>
+                                    <th>玩家</th>
+                                    <th>職業</th>
+                                    <th>場次</th>
+                                    <th>可出席</th>
+                                    <th>偏好</th>
+                                    <th style="width:80px">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="playerRows">
+                                <tr class="empty">
+                                    <td colspan="6" class="empty">目前沒有玩家，請從左側新增</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tab: Matches -->
+                    <div id="pane-matches" hidden>
+                        <div class="empty">尚未產生配對結果。點擊右上角的「自動配對」。</div>
+                        <div id="matchList"></div>
+                    </div>
+
+                    <!-- Tab: Schedule -->
+                    <div id="pane-schedule" hidden>
+                        <table aria-label="本週排程">
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>BOSS</th>
+                                    <th>隊伍</th>
+                                    <th>狀態</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scheduleRows">
+                                <tr class="empty">
+                                    <td colspan="4">尚未建立排程。</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <span class="muted">UI 原型 v0.1 · 純前端 / 可直接部署到 GitHub Pages · 之後可接演算法</span>
+        </footer>
+    </div>
+
+  <!--  <script type="module" src="/lib/firebase-firestore.js"></script>-->
+    <script type="module" src="js/main.js"></script>
+    
+</body>
+</html>
