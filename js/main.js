@@ -74,7 +74,7 @@ $(function () {
                         <td><span class="badge ${badgeJob}">${p.job || "-"}</span></td>
                         <td>${p.rounds || "-"}</td>
                         <td>${days}</td>
-                        <td>${prefs}</td>
+                        <!--<td>${prefs}</td>-->
                         <td>
                             <!--<button data-act="edit" data-idx="${idx}">編輯</button>-->
                             <button data-act="del" data-idx="${p.id}">刪除</button>
