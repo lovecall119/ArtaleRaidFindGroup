@@ -207,11 +207,35 @@ $(function () {
         // 切到配對頁
         $(".tab").attr("aria-selected", function () { return String($(this).data("tab") === "matches"); });
         $.each(panes, function (k, v) { v.prop("hidden", k !== "matches"); });
+        //badge顏色
+        $(".badge").each(function(){
+            let badgeJob = "";
+            switch($(this).text()){
+                case "劍士":
+                    badgeJob = "badge-warrior"
+                    break;
+                case "法師":
+                    badgeJob = "badge-magician"
+                    break;
+                case "弓手":
+                    badgeJob = "badge-bowman"
+                    break;
+                case "盜賊":
+                    badgeJob = "badge-thief"
+                    break;
+                case "槍手":
+                    badgeJob = "badge-pirate"
+                    break;
+                default:
+                    break;
+            }
+            $(this).addClass(badgeJob);
+        });
     });
 
     function mockMatch(players) {
         if (players.length < 6) {
-            return { html: "<div class='empty'>玩家不足，至少需要 6 人以上</div>" };
+            return { html: "<div class='empty'>玩家不足，至少需要 6 人</div>" };
         }
         const byDay = new Map();
         players.forEach(p => {
@@ -233,7 +257,7 @@ $(function () {
             chunks.forEach((team, idx) => {
                 html += `<div style="margin:8px 0; padding:8px; border:1px dashed var(--stroke); border-radius:10px">`;
                 html += `<div style="margin-bottom:6px">隊伍 ${idx + 1} · <span class="badge ${team.length === 6 ? 'ok' : 'warn'}">${team.length}/6</span></div>`;
-                html += `<div>${team.map(p => `${p.name} <span class='badge'>${p.job || ''}</span>`).join("、 ") || "—"}</div>`;
+                html += `<div>${team.map(p => `${p.name} <span class='badge ${p.job}'>${p.job || ''}</span>`).join("、 ") || "—"}</div>`;
                 html += `</div>`;
             });
             html += `</div>`;
