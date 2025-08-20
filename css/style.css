@@ -281,7 +281,8 @@ tbody tr td:last-child {
     padding: 4px 8px;
     border-radius: 999px;
     border: 1px solid var(--stroke);
-    font-size: 12px
+    font-size: 12px;
+    white-space: nowrap;
 }
 
 .badge-warrior {
