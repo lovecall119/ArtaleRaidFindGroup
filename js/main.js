@@ -1,5 +1,4 @@
-import {db} from "../lib/firebase-firestore.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {addMemberInfo,getMemberInfo} from "../lib/firebase-firestore.js";
 $(function () {
     // Toggle chips & days
     $(".chip").on("click", function () {
@@ -27,13 +26,15 @@ $(function () {
 
     // Storage
     const STORAGE_KEY = "artale-boss-players";
-    const loadPlayers = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    //const loadPlayers = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    const loadPlayers = async ()=>  await getMemberInfo();
     const savePlayers = (list) => localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 
+
     // Render players
-    function renderPlayers() {
+    async function renderPlayers() {
         const $tbody = $("#playerRows");
-        const list = loadPlayers();
+        const list = await getMemberInfo();
         $tbody.empty();
 
         if (list.length === 0) {
@@ -44,7 +45,7 @@ $(function () {
         const keyword = $("#search").val().trim().toLowerCase();
         $.each(list, function (idx, p) {
             if (!keyword || (`${p.name} ${p.job}`).toLowerCase().includes(keyword)) {
-                const days = (p.days || []).map(d => ["日", "一", "二", "三", "四", "五", "六"][d]).join("、") || "-";
+                const days = p.days.length == 7?"每日":(p.days || []).map(d => ["日", "一", "二", "三", "四", "五", "六"][d]).join("、") || "-";
                 const prefs = (p.prefs || []).join("、") || "-";
                 $tbody.append(`
                         <tr>
@@ -70,12 +71,25 @@ $(function () {
         const name = $("#playerName").val().trim();
         const job = $("#job").val();
         const rounds = $("#rounds").val();
-        if (!name) { alert("請輸入玩家名稱"); return; }
-
         const days = $(".day[data-active='true']").map(function () { return +$(this).data("day"); }).get();
         const prefs = $(".chip[data-active='true']").map(function () { return $(this).text().trim(); }).get();
 
-        const list = loadPlayers();
+        if (!name) { alert("請輸入玩家名稱"); return; }
+        if (!job) { alert("請選擇職業"); return; }
+        if (days.length==0) { alert("請選擇可出席日"); return; }
+        if (prefs.length==0) { alert("請選擇時段"); return; }
+
+        const list = await getMemberInfo();
+        const membetInfo = {
+            name,
+            job,
+            rounds,
+            days,
+            prefs
+        };
+        addMemberInfo(membetInfo); //寫入一份到後端
+        console.log("list----");
+        console.log(list);
         list.push({ id: crypto.randomUUID(), name, job, rounds, days, prefs, createdAt: Date.now() });
         savePlayers(list);
 
@@ -96,10 +110,10 @@ $(function () {
     });
 
     // Delete / Edit
-    $("#playerRows").on("click", "button", function () {
+    $("#playerRows").on("click", "button", async function () {
         const idx = +$(this).data("idx");
         const act = $(this).data("act");
-        const list = loadPlayers();
+        const list = await getMemberInfo();
 
         if (act === "del") {
             if (confirm("確定刪除這位玩家？")) {
@@ -158,18 +172,13 @@ $(function () {
     });
     //日期全選
     $("#allDay").on("click", function () {
-        $(".day").each(function () {
-            if ($(this).attr("data-active") != "true") {
-                $(this).click();
-            }
-
-        });
+        $(".day").attr("data-active", true);
         $(this).removeAttr("data-active");
     });
 
     // Auto match (stub)
-    $("#btnAuto").on("click", function () {
-        const list = loadPlayers();
+    $("#btnAuto").on("click", async function () {
+        const list = await getMemberInfo();
         const result = mockMatch(list);
         $("#pane-matches").html(result.html || "<div class='empty'>沒有可配對的資料</div>");
 
