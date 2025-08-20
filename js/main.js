@@ -1,4 +1,4 @@
-import {addMemberInfo,getMemberInfo} from "../lib/firebase-firestore.js";
+import {addMemberInfo, getMemberInfo, deleteMemberInfo} from "../lib/firebase-firestore.js";
 $(function () {
     // Toggle chips & days
     $(".chip").on("click", function () {
@@ -44,6 +44,7 @@ $(function () {
 
         const keyword = $("#search").val().trim().toLowerCase();
         $.each(list, function (idx, p) {
+            
             if (!keyword || (`${p.name} ${p.job}`).toLowerCase().includes(keyword)) {
                 const days = p.days.length == 7?"每日":(p.days || []).map(d => ["日", "一", "二", "三", "四", "五", "六"][d]).join("、") || "-";
                 const prefs = (p.prefs || []).join("、") || "-";
@@ -55,8 +56,8 @@ $(function () {
                         <td>${days}</td>
                         <td>${prefs}</td>
                         <td>
-                            <button data-act="edit" data-idx="${idx}">編輯</button>
-                            <button data-act="del" data-idx="${idx}">刪除</button>
+                            <!--<button data-act="edit" data-idx="${idx}">編輯</button>-->
+                            <button data-act="del" data-idx="${p.id}">刪除</button>
                         </td>
                         </tr>
                     `);
@@ -111,13 +112,14 @@ $(function () {
 
     // Delete / Edit
     $("#playerRows").on("click", "button", async function () {
-        const idx = +$(this).data("idx");
+        const idx = $(this).data("idx");
         const act = $(this).data("act");
         const list = await getMemberInfo();
 
         if (act === "del") {
             if (confirm("確定刪除這位玩家？")) {
-                list.splice(idx, 1);
+                //list.splice(idx, 1);
+                deleteMemberInfo(idx);
                 savePlayers(list);
                 renderPlayers();
             }
