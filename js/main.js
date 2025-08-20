@@ -65,6 +65,9 @@ $(function () {
                     case "槍手":
                         badgeJob = "badge-pirate"
                         break;
+                    case "補師":
+                        badgeJob = "badge-Priest"
+                        break;
                     default:
                         break;
                 }
@@ -223,6 +226,9 @@ $(function () {
                     break;
                 case "槍手":
                     badgeJob = "badge-pirate"
+                    break;
+                case "補師":
+                    badgeJob = "badge-Priest"
                     break;
                 default:
                     break;

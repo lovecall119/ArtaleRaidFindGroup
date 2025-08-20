@@ -315,6 +315,12 @@ tbody tr td:last-child {
     border: 1px solid #D6C081;
 }
 
+.badge-Priest {
+    background-color: #fff; /* 黃 Muted Ochre */
+    color: #1A1A1A;
+    border: 1px solid #fff;
+}
+
 
 
 .badge.ok {
