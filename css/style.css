@@ -285,26 +285,31 @@ tbody tr td:last-child {
 .badge-warrior {
     background-color: #C97A7E; /* 紅 Dusty Rose */
     color: #1A1A1A;
+    border: 1px solid #C97A7E;
 }
 
 .badge-magician {
     background-color: #5A6D8C; /* 藍 Deep Slate Blue */
     color: #F5F5F5; /* 提高對比，改淺字色 */
+    border: 1px solid #5A6D8C;
 }
 
 .badge-bowman {
     background-color: #8DA397; /* 綠 Sage Green */
     color: #1A1A1A;
+    border: 1px solid #8DA397;
 }
 
 .badge-thief {
     background-color: #7E5A8C; /* 紫 Deep Muted Purple */
     color: #F5F5F5; /* 提高對比，改淺字色 */
+    border: 1px solid #7E5A8C;
 }
 
 .badge-pirate {
     background-color: #D6C081; /* 黃 Muted Ochre */
     color: #1A1A1A;
+    border: 1px solid #D6C081;
 }
 
 
