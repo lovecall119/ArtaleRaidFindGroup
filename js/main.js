@@ -1,4 +1,4 @@
-import {aaa, db} from "../lib/firebase-firestore.js";
+import {db} from "../lib/firebase-firestore.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 $(function () {
     // Toggle chips & days
