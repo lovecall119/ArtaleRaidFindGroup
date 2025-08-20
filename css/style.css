@@ -282,6 +282,33 @@ tbody tr td:last-child {
     font-size: 12px
 }
 
+.badge-warrior {
+    background-color: #C97A7E; /* 紅 Dusty Rose */
+    color: #1A1A1A;
+}
+
+.badge-magician {
+    background-color: #5A6D8C; /* 藍 Deep Slate Blue */
+    color: #F5F5F5; /* 提高對比，改淺字色 */
+}
+
+.badge-bowman {
+    background-color: #8DA397; /* 綠 Sage Green */
+    color: #1A1A1A;
+}
+
+.badge-thief {
+    background-color: #7E5A8C; /* 紫 Deep Muted Purple */
+    color: #F5F5F5; /* 提高對比，改淺字色 */
+}
+
+.badge-pirate {
+    background-color: #D6C081; /* 黃 Muted Ochre */
+    color: #1A1A1A;
+}
+
+
+
 .badge.ok {
     border-color: rgba(34, 197, 94, .35);
     background: rgba(34, 197, 94, .08)

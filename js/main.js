@@ -48,10 +48,30 @@ $(function () {
             if (!keyword || (`${p.name} ${p.job}`).toLowerCase().includes(keyword)) {
                 const days = p.days.length == 7?"每日":(p.days || []).map(d => ["日", "一", "二", "三", "四", "五", "六"][d]).join("、") || "-";
                 const prefs = (p.prefs || []).join("、") || "-";
+                let badgeJob = "";
+                switch(p.job){
+                    case "劍士":
+                        badgeJob = "badge-warrior"
+                        break;
+                    case "法師":
+                        badgeJob = "badge-magician"
+                        break;
+                    case "弓手":
+                        badgeJob = "badge-bowman"
+                        break;
+                    case "盜賊":
+                        badgeJob = "badge-thief"
+                        break;
+                    case "槍手":
+                        badgeJob = "badge-pirate"
+                        break;
+                    default:
+                        break;
+                }
                 $tbody.append(`
                         <tr>
                         <td>${p.name}</td>
-                        <td><span class="badge">${p.job || "-"}</span></td>
+                        <td><span class="badge ${badgeJob}">${p.job || "-"}</span></td>
                         <td>${p.rounds || "-"}</td>
                         <td>${days}</td>
                         <td>${prefs}</td>
