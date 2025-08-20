@@ -26,9 +26,7 @@ $(function () {
 
     // Storage
     const STORAGE_KEY = "artale-boss-players";
-    //const loadPlayers = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
     const loadPlayers = async () => await getMemberInfo();
-    const savePlayers = (list) => localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 
 
     // Render players
@@ -112,9 +110,6 @@ $(function () {
             prefs
         };
         addMemberInfo(membetInfo); //寫入一份到後端
-        list.push({ id: crypto.randomUUID(), name, job, rounds, days, prefs, createdAt: Date.now() });
-        savePlayers(list);
-
         // reset form
         $("#playerName").val("");
         $("#job").val("");
@@ -139,9 +134,7 @@ $(function () {
 
         if (act === "del") {
             if (confirm("確定刪除這位玩家？")) {
-                //list.splice(idx, 1);
                 deleteMemberInfo(idx);
-                savePlayers(list);
                 renderPlayers();
             }
         }
@@ -159,7 +152,6 @@ $(function () {
             });
 
             list.splice(idx, 1);
-            savePlayers(list);
             renderPlayers();
         }
     });
@@ -187,7 +179,7 @@ $(function () {
             try {
                 const data = JSON.parse(reader.result || "[]");
                 if (!Array.isArray(data)) throw new Error("格式錯誤");
-                savePlayers(data); renderPlayers();
+                renderPlayers();
             } catch (err) { alert("匯入失敗：" + err.message); }
         };
         reader.readAsText(file, "utf-8");
@@ -344,40 +336,4 @@ $(function () {
 
         return { html };
     }
-
-
-
-    /*
-    function mockMatch(players) {
-        if (players.length < 6) {
-            return { html: "<div class='empty'>玩家不足，至少需要 6 人</div>" };
-        }
-        const byDay = new Map();
-        players.forEach(p => {
-            (p.days?.length ? p.days : [-1]).forEach(d => {
-                if (!byDay.has(d)) byDay.set(d, []);
-                byDay.get(d).push(p);
-            });
-        });
-        let html = "";
-        for (const [day, list] of byDay) {
-            const title = day === -1 ? "未填可出席" : `星期${["日", "一", "二", "三", "四", "五", "六"][day]}`;
-            html += `<div style="margin:10px 0; padding:12px; border:1px solid var(--stroke); border-radius:12px; background:var(--card)">`;
-            html += `<div style="margin-bottom:8px"><strong>${title}</strong> · 候選 ${list.length} 人</div>`;
-            const chunks = list.reduce((arr, p, i) => {
-                if (i % 6 === 0) arr.push([]);
-                arr[arr.length - 1].push(p);
-                return arr;
-            }, []);
-            chunks.forEach((team, idx) => {
-                html += `<div style="margin:8px 0; padding:8px; border:1px dashed var(--stroke); border-radius:10px">`;
-                html += `<div style="margin-bottom:6px">隊伍 ${idx + 1} · <span class="badge ${team.length === 6 ? 'ok' : 'warn'}">${team.length}/6</span></div>`;
-                html += `<div>${team.map(p => `${p.name} <span class='badge ${p.job}'>${p.job || ''}</span>`).join("、 ") || "—"}</div>`;
-                html += `</div>`;
-            });
-            html += `</div>`;
-        }
-        return { html };
-    }
-    */
 });
