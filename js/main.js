@@ -98,7 +98,7 @@ $(function () {
         if (!name) { alert("請輸入玩家名稱"); return; }
         if (!job) { alert("請選擇職業"); return; }
         if (days.length==0) { alert("請選擇可出席日"); return; }
-        if (prefs.length==0) { alert("請選擇時段"); return; }
+        //if (prefs.length==0) { alert("請選擇時段"); return; }
 
         const list = await getMemberInfo();
         const membetInfo = {
