@@ -230,6 +230,13 @@ $(function () {
             }
             $(this).addClass(badgeJob);
         });
+
+        //加入排程
+        $(".addscheBtn").on("click", function(){
+            let str = `星期${["日", "一", "二", "三", "四", "五", "六"][$(this).attr("data-day")]},還沒做完不要亂按`
+            alert(str);
+        });
+
     });
 
     function mockMatch(players) {
@@ -313,6 +320,7 @@ $(function () {
         let html = "";
         for (const [day, list] of byDay) {
             const title = day === -1 ? "未填可出席" : `星期${["日", "一", "二", "三", "四", "五", "六"][day]}`;
+            let addscheBtn = `<button class="badge ok addscheBtn" data-day="${day}">加入排程</button>`;
             html += `<div style="margin:10px 0; padding:12px; border:1px solid var(--stroke); border-radius:12px; background:var(--card)">`;
             html += `<div style="margin-bottom:8px"><strong>${title}</strong> · 候選 ${list.length} 人</div>`;
 
@@ -328,8 +336,8 @@ $(function () {
 
                 const ok = team.length === TEAM_SIZE && hasMage && (!RULE_MAX_ONE_WARRIOR || warriorCount <= 1);
 
-                html += `<div style="margin:8px 0; padding:8px; border:1px dashed var(--stroke); border-radius:10px">`;
-                html += `<div style="margin-bottom:6px">隊伍 ${idx + 1} · <span class="badge ${ok ? 'ok' : 'warn'}">${status}</span>${ok?'':''}</div>`;
+                html += `<div style="margin:8px 0; padding:8px; border:1px dashed var(--stroke); border-radius:10px" class="${ok?'okParty':''}" >`;
+                html += `<div style="margin-bottom:6px">隊伍 ${idx + 1} · <span class="badge ${ok ? 'ok' : 'warn'}" ${ok?'style="display:none;"':''}>${status}</span>${ok?addscheBtn:''}</div>`;
                 html += `<div>${team.map(p => `${p.name} <span class='badge ${p.job}'>${p.job || ''}</span>`).join("、 ") || "—"}</div>`;
                 html += `</div>`;
             });
