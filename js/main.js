@@ -1,5 +1,8 @@
 import { addMemberInfo, getMemberInfo, deleteMemberInfo } from "../lib/firebase-firestore.js";
+//import { fsignInWithPopup } from "../lib/firebase-auth.js";
+
 $(function () {
+    
     // Toggle chips & days
     $(".chip").on("click", function () {
         const active = $(this).attr("data-active") === "true";
@@ -326,7 +329,7 @@ $(function () {
                 const ok = team.length === TEAM_SIZE && hasMage && (!RULE_MAX_ONE_WARRIOR || warriorCount <= 1);
 
                 html += `<div style="margin:8px 0; padding:8px; border:1px dashed var(--stroke); border-radius:10px">`;
-                html += `<div style="margin-bottom:6px">隊伍 ${idx + 1} · <span class="badge ${ok ? 'ok' : 'warn'}">${status}</span></div>`;
+                html += `<div style="margin-bottom:6px">隊伍 ${idx + 1} · <span class="badge ${ok ? 'ok' : 'warn'}">${status}</span>${ok?'':''}</div>`;
                 html += `<div>${team.map(p => `${p.name} <span class='badge ${p.job}'>${p.job || ''}</span>`).join("、 ") || "—"}</div>`;
                 html += `</div>`;
             });

@@ -7,7 +7,7 @@
     <title>Artale 每周 BOSS 配對 | UI 原型</title>
 
     <link rel="stylesheet" href="css/style.css">
-    
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -21,7 +21,18 @@
                 <h1>Artale 每周 BOSS 配對 v1.0</h1>
                 <div class="muted">輸入玩家資訊 ➜ 建立名單 ➜ 自動配對 7/14 場</div>
             </div>
+
+            <!-- 登入區塊 -->
+            <div class="login-area">
+                <div id="status" style="display: nonexx;">
+                    <span id="userName"></span>
+                    
+                </div>
+                <button id="logoutBtn" class="btn-ghost small">登出</button>
+                <button id="loginBtn" class="btn-primary small">Google 登入</button>
+            </div>
         </header>
+
 
         <div class="layout">
             <!-- Left Column: Player form -->
@@ -101,14 +112,14 @@
                 <nav class="tabs" role="tablist">
                     <button class="tab" role="tab" aria-selected="true" data-tab="players">玩家名單</button>
                     <button class="tab" role="tab" aria-selected="false" data-tab="matches">配對建議</button>
-                    <button class="tab" role="tab" aria-selected="false" data-tab="schedule">本週排程</button>
+                    <!-- <button class="tab" role="tab" aria-selected="false" data-tab="schedule">本週排程</button> -->
                 </nav>
                 <section class="body">
                     <!-- Toolbar -->
                     <div class="toolbar">
                         <div class="search">
                             <input id="search" type="text" placeholder="搜尋玩家/職業…" />
-                        <!--
+                            <!--
                             <button id="btnExport">匯出 JSON</button>
                             <input id="importFile" type="file" accept="application/json" hidden />
                             <button id="btnImport">匯入 JSON</button>
@@ -169,12 +180,14 @@
         </div>
 
         <footer>
-            
+
         </footer>
     </div>
 
-  <!--  <script type="module" src="/lib/firebase-firestore.js"></script>-->
+    <!--  <script type="module" src="/lib/firebase-firestore.js"></script>-->
     <script type="module" src="js/main.js"></script>
-    
+    <script type="module" src="lib/firebase-auth.js"></script>
+
 </body>
+
 </html>
