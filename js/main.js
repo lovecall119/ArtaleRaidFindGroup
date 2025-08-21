@@ -1,5 +1,4 @@
 import { addMemberInfo, getMemberInfo, deleteMemberInfo } from "../lib/firebase-firestore.js";
-//import { fsignInWithPopup } from "../lib/firebase-auth.js";
 
 $(function () {
     
@@ -233,7 +232,7 @@ $(function () {
 
         //加入排程
         $(".addscheBtn").on("click", function(){
-            let str = `星期${["日", "一", "二", "三", "四", "五", "六"][$(this).attr("data-day")]},還沒做完不要亂按`
+            let str = `星期${["日", "一", "二", "三", "四", "五", "六"][$(this).attr("data-day")]},還沒做完 0..0`
             alert(str);
         });
 
@@ -344,7 +343,6 @@ $(function () {
 
             html += `</div>`;
         }
-
         return { html };
     }
 });
